@@ -59,6 +59,8 @@ var prevPenY_temp = 0;
 var prevBrushSize_temp = 0;
 
 var eraseEnable = false;
+var undo_button;
+var strokeColor = 100;
 
 /***********************
 *    DRAWING CANVAS    *
@@ -94,7 +96,6 @@ new p5(function(p) {
       penX = xFilter.filter(p.mouseX, p.millis());
       penY = yFilter.filter(p.mouseY, p.millis());
 
-
       // What to do on the first frame of the stroke
       if(isDrawingJustStarted) {
         //console.log("started drawing");
@@ -127,15 +128,14 @@ new p5(function(p) {
                 x = p.lerp(prevPenX, penX, amt);
                 y = p.lerp(prevPenY, penY, amt);
                 p.noStroke();
-                p.fill(100)
+                p.fill(strokeColor)
                 p.ellipse(x, y, s);
               }
 
               // Draw an ellipse at the latest position
               p.noStroke();
-              p.fill(100)
+              p.fill(strokeColor)
               p.ellipse(penX, penY, brushSize);
-
 
               // For undo_button save the values to temporary var
               penX_temp = penX;
@@ -146,63 +146,17 @@ new p5(function(p) {
               prevPenY_temp = prevPenY;
               prevBrushSize_temp = brushSize;
 
-
               // Save the latest brush values for next frame
               prevBrushSize = brushSize;
               prevPenX = penX;
               prevPenY = penY;
 
               isDrawingJustStarted = false;
-
-
       }
-
-
     }
-
   }
-
-
 }, "p5_instance_01");
 
-
-/***********************
-*      UI CANVAS       *
-************************/
-//from website!!
-
-/*let eraseEnable = false;
-
-function setup() {
-  p.createCanvas(600, 400);
-  p.textSize(20);
-
-
-  fill('black');
-  p.text("Click the button to see the effects of"
-  + " the erase() function", 20, 30);
-
-  toggleBtn = createButton("Toggle erase");
-  toggleBtn.position(30, 60);
-  toggleBtn.mouseClicked(toggleErase);
-}
-
-function toggleErase() {
-  if (eraseEnable) {
-  noErase();
-  eraseEnable = false;
-  }
-  else {
-  erase();
-  eraseEnable = true;
-  }
-}
-
-function mouseMoved() {
-  fill('red');
-  noStroke();
-  circle(mouseX, mouseY, 50);
-}*/
 
 new p5(function(p) {
 
@@ -218,7 +172,6 @@ new p5(function(p) {
 
       if(showDebug){
         p.text("pressure = " + pressure, 10, 20);
-        //p.text("Hi", 200, 300);
         if (pressure != -2 && pressure != 0)
           {
             arr.push(pressure);
@@ -229,27 +182,23 @@ new p5(function(p) {
         p.line(0,p.mouseY,p.width,p.mouseY);
 
         p.noStroke();
-        p.fill(100)
+        p.fill(strokeColor)
         var w = p.width * pressure;
         p.rect(0, 0, w, 4);
       }
     }
-
-
 }, "p5_instance_02");
 
 
 
 function setup() {
   createCanvas(100, 100);
-  //p.text("Hi", 200, 300);
-  undo_button = createButton('Erase me');
+
+  undo_button = createButton('Draw');
   undo_button.position(0, 50);
   undo_button.mousePressed(toggleErase);
 
-
-
-  button = createButton('SAVE FILE');
+  button = createButton('Save file');
   button.position(0, 30);
   button.mousePressed(createFile);
 
@@ -264,20 +213,17 @@ function setup() {
   }
 }
 
-/*function toggleErase() {
+function toggleErase(){
 
-  if (eraseEnable) {
-
-    p.noErase();
-    eraseEnable = false;
-    p.text("HELLO = ", 100, 20);
+  if (undo_button.elt.innerText == 'Draw') {
+    undo_button.elt.innerText = 'Erase';
+    strokeColor = 255;
   }
   else {
-    p.erase();
-    eraseEnable = true;
-    //p.text("HELLO = " + pressure, 100, 20);
+    undo_button.elt.innerText = 'Draw';
+    strokeColor = 100;
   }
-}*/
+}
 
 function createFile() {
 
@@ -293,69 +239,6 @@ function createFile() {
   writer.close();
 }
 
-//--------------------------------------------------------
-//TESTTTTT
-/*function setup() {
-
-    // Create a Canvas
-    createCanvas(500, 550);
-    fill('black');
-    text("Click the button to see the effects of"
-    + " the erase() function", 20, 30);
-
-    toggleBtn = createButton("Toggle erase");
-    toggleBtn.position(30, 60);
-    toggleBtn.mouseClicked(toggleErase);
-}
-
-function draw() {
-
-    // Vector initislisation
-    // using createVector
-    t1 = createVector(10, 40);
-    t2 = createVector(411, 500);
-
-    // Set background color
-    background(200);
-
-    // Set stroke weight
-    strokeWeight(2);
-
-    // line using vector
-    line(t1.x, t1.y, t2.x, t2.y);
-
-    translate(12, 54);
-
-    line(t1.x, t1.y, t2.x, t2.y);
-}*/
-
-/*function setup() {
-  p.createCanvas(600, 400);
-  p.textSize(20);
-
-  fill('black');
-  p.text("Click the button to see the effects of"
-  + " the erase() function", 20, 30);
-
-  toggleBtn = createButton("Toggle erase");
-  toggleBtn.position(30, 60);
-  toggleBtn.mouseClicked(toggleErase);
-}
-
-let eraseEnable = false;*/
-
-function toggleErase() {
-  text("Hi", 200, 300);
-  //p.text("Hi", 200, 300);
-  /*if (eraseEnable) {
-  noErase();
-  eraseEnable = false;
-  }
-  else {
-  erase();
-  eraseEnable = true;
-}*/
-}
 
 function mouseMoved() {
   fill('red');//make white
