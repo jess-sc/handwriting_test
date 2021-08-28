@@ -174,7 +174,9 @@ new p5(function(p) {
         p.text("pressure = " + pressure, 10, 20);
         if (pressure != -2 && pressure != 0)
           {
-            arr.push(pressure);
+            if (undo_button.elt.innerText == 'Erase'){
+              arr.push(pressure);
+            }
           }
 
         p.stroke(200,50);
