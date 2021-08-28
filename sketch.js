@@ -194,7 +194,7 @@ new p5(function(p) {
 function setup() {
   createCanvas(100, 100);
 
-  undo_button = createButton('Draw');
+  undo_button = createButton('Erase');
   undo_button.position(0, 50);
   undo_button.mousePressed(toggleErase);
 
@@ -215,12 +215,12 @@ function setup() {
 
 function toggleErase(){
 
-  if (undo_button.elt.innerText == 'Draw') {
-    undo_button.elt.innerText = 'Erase';
+  if (undo_button.elt.innerText == 'Erase') {
+    undo_button.elt.innerText = 'Draw';
     strokeColor = 255;
   }
   else {
-    undo_button.elt.innerText = 'Draw';
+    undo_button.elt.innerText = 'Erase';
     strokeColor = 100;
   }
 }
@@ -240,11 +240,6 @@ function createFile() {
 }
 
 
-function mouseMoved() {
-  fill('red');//make white
-  noStroke();
-  circle(mouseX, mouseY, 50);
-}
 /***********************
 *       UTILITIES      *
 ************************/
